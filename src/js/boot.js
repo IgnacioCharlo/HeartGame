@@ -31,6 +31,7 @@
 
   window['plataformer'] = window['plataformer'] || {};
   window['plataformer'].Boot = Boot;
+  window['plataformer'].Global = {score: 0}
 
 }());
 

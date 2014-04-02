@@ -11,6 +11,7 @@
       this.bar5 = null;
       this.enemyvelocity = null;
       this.hearth = null;
+      this.score = null,
       
       this.enemy1;
      /* this.enemy2 = null;
@@ -18,6 +19,8 @@
       this.enemy1exist = null;
       this.enemy2exist = null;
       this.enemy3exist = null;
+      
+      this.scoreText = null;
     }
 
     Game.prototype = {
@@ -30,13 +33,20 @@
         
         this.background = this.game.add.tileSprite(0, 0, 750, 500, 'background');
         this.enemyvelocity = 100;
+        this.score = 0;
         
        
         this.enemy1exists = false;
-        /*this.enemy2.exists = false;
-        this.enemy3.exists = false;*/
+        this.enemy2exists = false;
+        this.enemy3exists = false;
+       
         this.heart = this.add.sprite(320, 400, 'heart');
         this.heart.animations.add('beat');
+        this.game.physics.enable(this.heart, Phaser.Physics.ARCADE);
+        this.heart.enablebody = true;
+        this.heart.body.immovable = true;
+        this.heart.body.collideWorldBounds = true;
+        
         //this.heart.animations.play('beat', 20, true);
         this.player = this.add.sprite(x, y, 'white');
         
@@ -80,6 +90,10 @@
         this.player.body.collideWorldBounds = true;
         this.player.body.bounce.set(0.0);
         this.player.body.gravity.y = 350;
+        
+        
+        
+        this.scoreText = this.add.text(20, 0, 'SCORE: 0', { font: "20px Arial", fill: "#ffffff", align: "left" });
         
       },
 
@@ -148,7 +162,7 @@
         
         if(!this.enemy3exist){
         	
-        	this.enemy3 = this.enemy.create(450, 50, 'virus');
+        	this.enemy3 = this.enemy.create(370, 20, 'virus');
         	this.game.physics.enable(this.enemy3, Phaser.Physics.ARCADE);
         	
             this.enemy3.body.velocity.x = -this.enemyvelocity;
@@ -191,6 +205,11 @@
         this.game.physics.arcade.collide(this.player, this.enemy2, this.killEnemy2,null,this);
         this.game.physics.arcade.collide(this.player, this.enemy3, this.killEnemy3,null,this);
         
+        
+        this.game.physics.arcade.collide(this.heart, this.enemy1, this.endGame,null,this);
+        this.game.physics.arcade.collide(this.heart, this.enemy2, this.endGame,null,this);
+        this.game.physics.arcade.collide(this.heart, this.enemy3, this.endGame,null,this);
+        
         this.game.physics.arcade.collide(this.enemy, this.bars);
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
@@ -221,23 +240,39 @@
         	this.player.body.velocity.x = 200;
             this.player.body.velocity.y = -200;
         }
-
+        
+        this.scoreText.content = 'SCORE: ' + this.score;
       },
 
       killEnemy1 : function(player, enemy){
     	  this.enemy1exist = false;
     	  enemy.kill();
+    	  this.enemyvelocity +=5;
+    	  this.score ++;
+    	 // this.scoreText.content = 'SCORE: ' + this.score;
     	  
       },
       killEnemy2 : function(player, enemy){
     	  this.enemy2exist = false;
     	  enemy.kill();
+    	  this.enemyvelocity +=5;
+    	  this.score ++;
+    	 // this.scoreText.content = 'SCORE: ' + this.score;
       },
       killEnemy3 : function(player, enemy){
     	  this.enemy3exist = false;
     	  enemy.kill();
+    	  this.enemyvelocity +=5;
+    	  this.score ++;
+    	  //this.scoreText.content = 'SCORE: ' + this.score;
       },
-    	 
+      endGame : function(){
+    	  //window.plataformer.Global.score = this.score;  
+    	  console.log("Hola");
+    	  this.game.state.start('end');
+    	  //, null, this);
+    	  //aqui que pase a endGame.js
+      },	 
      
       
       colissionEnemies : function(enemy1,enemy2){
