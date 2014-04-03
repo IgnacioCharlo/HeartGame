@@ -10,12 +10,10 @@
       this.bar4 = null;
       this.bar5 = null;
       this.enemyvelocity = null;
-      this.hearth = null;
+      this.heart = null;
       this.score = null,
       
-      this.enemy1;
-     /* this.enemy2 = null;
-      this.enemy3 = null;*/
+     
       this.enemy1exist = null;
       this.enemy2exist = null;
       this.enemy3exist = null;
@@ -34,11 +32,10 @@
         this.background = this.game.add.tileSprite(0, 0, 750, 500, 'background');
         this.enemyvelocity = 100;
         this.score = 0;
-        
        
-        this.enemy1exists = false;
-        this.enemy2exists = false;
-        this.enemy3exists = false;
+        this.enemy1exist = false;
+        this.enemy2exist = false;
+        this.enemy3exist = false;
        
         this.heart = this.add.sprite(320, 400, 'heart');
         this.heart.animations.add('beat');
@@ -91,9 +88,9 @@
         this.player.body.bounce.set(0.0);
         this.player.body.gravity.y = 350;
         
+     ////////////////////////////////////   
         
-        
-        this.scoreText = this.add.text(20, 0, 'SCORE: 0', { font: "20px Arial", fill: "#ffffff", align: "left" });
+        this.scoreText = this.add.text(20, 0, 'SCORE:' + this.score, { font: "20px Arial", fill: "#ffffff", align: "left" });
         
       },
 
@@ -240,8 +237,8 @@
         	this.player.body.velocity.x = 200;
             this.player.body.velocity.y = -200;
         }
-        
-        this.scoreText.content = 'SCORE: ' + this.score;
+        this.scoreText.text= 'Score: ' + this.score;
+        //this.scoreText.content = 'SCORE: ' + this.score;
       },
 
       killEnemy1 : function(player, enemy){
@@ -267,7 +264,7 @@
     	  //this.scoreText.content = 'SCORE: ' + this.score;
       },
       endGame : function(){
-    	  //window.plataformer.Global.score = this.score;  
+    	  window.plataformer.Global.score = this.score;  
     	  console.log("Hola");
     	  this.game.state.start('end');
     	  //, null, this);
